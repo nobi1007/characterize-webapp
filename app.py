@@ -63,10 +63,9 @@ def google_login():
 
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
-
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=request.base_url + "/callback",
+        redirect_uri = request.base_url[:-7] + "/api/glogin/callback",
         scope=["openid", "email", "profile"],
     )
 
