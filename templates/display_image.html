@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Good Login
+        </title>
+    </head>
+    <body>
+        Here is the pic
+
+        <div>
+            
+            <img src="{{ uploaded_image }}" height="40px" width="40px"/>
+
+            <form method="post" action="/show_image" enctype="multipart/form-data">
+                <input type="text" name = "user_id" placeholder="User Id" required>
+                <input type="text" name="file_name" placeholder="File Name" required/>
+                <input type="file" name="input_image"/>
+                <input type="submit">
+            </form>
+
+        </div>
+    </body>
+</html>
