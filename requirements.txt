@@ -18,7 +18,9 @@ lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
 mccabe==0.6.1
 msrest==0.6.18
+numpy==1.19.1
 oauthlib==3.1.0
+opencv-python==4.3.0.36
 pycparser==2.20
 pylint==2.5.3
 requests==2.24.0
