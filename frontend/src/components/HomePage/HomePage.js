@@ -1,27 +1,32 @@
 import React, { PureComponent } from "react";
 import GoogleLogin from 'react-google-login';
-
 import "./HomePage.scss";
+
 
 class HomePage extends PureComponent{
 
-    responseGoogle = (response) => {
-        console.log(response);
-    }
+    // successResponseGoogle = (response) => {
+    //     console.log("success ",response);
+    // }
+
+    // failureResponseGoogle = (response) => {
+    //     console.log("failure ",response);
+    // } 
 
     render(){
-        console.log(process.env)
         return(
             <div>
                 <div>Hello Shyam</div>
                 <div>
-                    <GoogleLogin
-                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                    buttonText="Login"
-                    onSuccess={this.responseGoogle}
-                    onFailure={this.responseGoogle}
-                    cookiePolicy={'single_host_origin'}
-                    />
+                    {/* Lets handle auth later */}
+                    {/* <GoogleLogin
+                        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                        buttonText="Login with Google"
+                        onSuccess={this.successResponseGoogle}
+                        onFailure={this.failureResponseGoogle}
+                        cookiePolicy={'single_host_origin'}
+                        isSignedIn={true}
+                    /> */}
                 </div>
 
             </div>

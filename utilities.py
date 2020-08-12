@@ -6,11 +6,14 @@ from flask import render_template, redirect, url_for
 import flask_login
 from CustomFileStorage import *
 from oauthlib.oauth2 import WebApplicationClient
+from dotenv import load_dotenv
+
+load_dotenv()
 
 ## Google Login Configuration
 
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
@@ -31,7 +34,7 @@ def handle_show_image(request):
     
     storage_object = CustomFileStorage(user_id = input_user_id)
     
-    storage_object.store_file(file_name = input_file_name, file_data = input_file_data)
+    storage_object.store_file(file_name = input_file_name, file_data = input_file_data, file_type = "image")
     image_uri = storage_object.saved_file_uri
     
     return render_template("display_image.html",uploaded_image=image_uri)
@@ -98,3 +101,45 @@ def handle_google_login_callback(request, User, users):
 
     # Send user back to homepage
     return redirect(url_for("protected"))
+
+
+def characterize101(image_data:np.ndarray) -> str:
+
+    characters = list("@#&%`-+.. ")
+    array_x = np.array(image_data)
+
+    height = 42
+    factor = (len(array_x)//height)//2
+    width = len(array_x[0])//factor
+
+    resized_image = cv2.resize(image_data,(width,height))
+
+    print(np.shape(np.array(resized_image)))
+    output_data = ""
+
+    for i in range(0,height):
+        for j in range(width):
+            if 0 <= resized_image[i][j] <= 26:
+                output_data += characters[0]
+            elif 27 <= resized_image[i][j] <= 52:
+                output_data += characters[1]
+            elif 53 <= resized_image[i][j] <= 78:
+                output_data += characters[2]
+            elif 79 <= resized_image[i][j] <= 104:
+                output_data += characters[3]
+            elif 105 <= resized_image[i][j] <= 130:
+                output_data += characters[4]
+            elif 131 <= resized_image[i][j] <= 156:
+                output_data += characters[5]
+            elif 157 <= resized_image[i][j] <= 182:
+                output_data += characters[6]
+            elif 183 <= resized_image[i][j] <= 206:
+                output_data += characters[7]
+            elif 207 <= resized_image[i][j] <= 230:
+                output_data += characters[8]
+            elif 231 <= resized_image[i][j] <= 255:
+                output_data += characters[9]
+        output_data += "\n"
+
+    return output_data
+    

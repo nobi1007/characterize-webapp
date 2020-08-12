@@ -6,6 +6,10 @@ import requests
 import cv2
 import numpy
 from utilities import *
+from dotenv import load_dotenv
+from CustomFileStorage import *
+
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = "7y8gb87t76g878t6243rnd2wor8dj98"
@@ -85,19 +89,28 @@ def protected():
 
 
 ## ------------------------------------- API - Characterizer -------------------------------------
-@app.route("/api/characterizer", methods = ["POST"])
-def characterizer():
-    req = request.files
-    print(req)
-    req = dict(req)
-    img_file = req[list(req.keys())[0]].read()
-    npimg = numpy.fromstring(img_file, numpy.uint8)
-    print(npimg)
-    img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
-    print(img)
-    # print(cv2.imread(img_file))
+
+@app.route("/api/characterizer101", methods = ["POST"])
+def characterizerV101():
+    req = request.get_json()    
+    user_id = req["user_id"]
+    file_uri = req["file_uri"]
+    original_file_name = req["file_name"]
+
+    file_response = requests.get(file_uri)
+    npimg = np.fromstring(file_response.content, np.uint8)
+    request_file_data = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+
+    chard_image_data = characterize101(request_file_data)
+
+    file_object = CustomFileStorage(user_id = user_id)
     
-    return "File recieved"
+    file_object.store_file(file_name = "chard-101-" + original_file_name, file_data = chard_image_data)    
+    characterized_image_uri = file_object.saved_file_uri
+    
+    return {
+        "char-it-image-uri":characterized_image_uri
+    }
 
 
 @app.route("/show_image",methods=["GET","POST"])
@@ -111,9 +124,10 @@ def displayImage():
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-        return '''
-                Please <a href="/glogin">login</a> first! 
-            '''
+
+    return '''
+            Please <a href="/glogin">login</a> first! 
+        '''
 
 
 if __name__ == "__main__":
