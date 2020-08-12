@@ -13,9 +13,6 @@ app.secret_key = "7y8gb87t76g878t6243rnd2wor8dj98"
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
-def get_google_provider_cfg():
-    return requests.get(GOOGLE_DISCOVERY_URL).json()
-
 ## Mock Database 
 
 users = {
@@ -85,7 +82,6 @@ def logout():
 @app.route("/")
 @flask_login.login_required
 def protected():
-    print("-----Value of FOO------",str(os.environ.get("FOO")))
     return render_template("index.html",user_id=flask_login.current_user.id)
 
 
@@ -119,7 +115,7 @@ def unauthorized_handler():
         return '''
                 Please <a href="/glogin">login</a> first! 
             '''
-
+            
 
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
