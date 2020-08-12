@@ -48,7 +48,6 @@ def request_loader(request):
     user.is_authenticated = request.form["email"] == users[name]["email"]
     return user
 
-
 @app.route("/glogin")
 def google_login():
 
@@ -115,7 +114,7 @@ def unauthorized_handler():
         return '''
                 Please <a href="/glogin">login</a> first! 
             '''
-            
+
 
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
