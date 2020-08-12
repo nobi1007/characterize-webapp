@@ -85,6 +85,7 @@ def logout():
 @app.route("/")
 @flask_login.login_required
 def protected():
+    print("-----Value of FOO------",str(os.environ.get("FOO")))
     return render_template("index.html",user_id=flask_login.current_user.id)
 
 
