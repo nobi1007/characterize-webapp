@@ -17,6 +17,7 @@ class HomePage extends PureComponent{
         return(
             <div>
                 <div>Hello Shyam</div>
+                
                 <div>
                     {/* Lets handle auth later */}
                     {/* <GoogleLogin

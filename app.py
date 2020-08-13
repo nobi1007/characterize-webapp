@@ -104,8 +104,7 @@ def characterizerV101():
     chard_image_data = characterize101(request_file_data)
 
     file_object = CustomFileStorage(user_id = user_id)
-    
-    file_object.store_file(file_name = "chard-101-" + original_file_name, file_data = chard_image_data)    
+    file_object.store_file(file_name = "chard-101-" + original_file_name, file_data = chard_image_data, file_type="text")    
     characterized_image_uri = file_object.saved_file_uri
     
     return {

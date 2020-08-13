@@ -102,22 +102,33 @@ def handle_google_login_callback(request, User, users):
     # Send user back to homepage
     return redirect(url_for("protected"))
 
+def array3T2(array):
+    ans = []
+    for i in range(len(array)):
+        temp = []
+        for j in range(len(array[0])):
+            temp.append(sum(array[i][j])//3)
+        ans.append(temp)
+    return ans.copy()
+
 
 def characterize101(image_data:np.ndarray) -> str:
 
     characters = list("@#&%`-+.. ")
-    array_x = np.array(image_data)
+
+    cv2.imwrite("sample_image.png",image_data)
+    array_x = cv2.imread("sample_image.png",0)
+    os.remove("sample_image.png")
 
     height = 42
     factor = (len(array_x)//height)//2
     width = len(array_x[0])//factor
 
-    resized_image = cv2.resize(image_data,(width,height))
+    resized_image = cv2.resize(array_x,(width,height))
 
-    print(np.shape(np.array(resized_image)))
     output_data = ""
 
-    for i in range(0,height):
+    for i in range(height):
         for j in range(width):
             if 0 <= resized_image[i][j] <= 26:
                 output_data += characters[0]
@@ -142,4 +153,3 @@ def characterize101(image_data:np.ndarray) -> str:
         output_data += "\n"
 
     return output_data
-    

@@ -36,9 +36,8 @@ class CustomFileStorage:
         if file_type == "pdf":
             return ".pdf"
 
-    def store_file(self, file_name, file_data, file_type: str) -> None:
-        
-        file_suffix = sefl.__get_file_suffix(fi)        
+    def store_file(self, file_name, file_data, file_type: str) -> None:        
+        file_suffix = self.__get_file_suffix(file_type)        
         self.file_name = file_name + file_suffix
 
         if file_type == "image":
@@ -47,6 +46,9 @@ class CustomFileStorage:
         if file_type == "text":
             temp_file = open(self.file_name,"w")
             temp_file.write(file_data)
+            temp_file.close()
+        
+        # print("file-data",file_data)
 
         connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
         container_name = self.user_id
@@ -54,11 +56,12 @@ class CustomFileStorage:
         blob_client = blob_service_client.get_blob_client(container = container_name, blob = self.file_name)
         container_client =  ContainerClient.from_connection_string(connect_str,container_name)
 
-        upload_data = ""
+        upload_data = file_data
         original_file_name = self.file_name
 
         with open(self.file_name,"rb") as data:
             upload_data = data
+            # print("upload-data",upload_data)
 
             if self.__container_exists(container_client):
                 while self.__blob_exists(blob_client):
