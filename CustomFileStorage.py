@@ -33,8 +33,6 @@ class CustomFileStorage:
             return ".jpg"
         if file_type == "text":
             return ".txt"
-        if file_type == "pdf":
-            return ".pdf"
 
     def store_file(self, file_name, file_data, file_type: str) -> None:        
         file_suffix = self.__get_file_suffix(file_type)        
@@ -47,8 +45,6 @@ class CustomFileStorage:
             temp_file = open(self.file_name,"w")
             temp_file.write(file_data)
             temp_file.close()
-        
-        # print("file-data",file_data)
 
         connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
         container_name = self.user_id

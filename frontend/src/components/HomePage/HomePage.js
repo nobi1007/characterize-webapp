@@ -1,38 +1,21 @@
 import React, { PureComponent } from "react";
-import GoogleLogin from 'react-google-login';
+// import GoogleLogin from 'react-google-login';
 import "./HomePage.scss";
 
+import HomeHeader from "../HomeHeader";
+import HomeBody from "../HomeBody";
+import HomeFooter from "../HomeFooter";
 
-class HomePage extends PureComponent{
-
-    // successResponseGoogle = (response) => {
-    //     console.log("success ",response);
-    // }
-
-    // failureResponseGoogle = (response) => {
-    //     console.log("failure ",response);
-    // } 
-
-    render(){
-        return(
-            <div>
-                <div>Hello Shyam</div>
-                
-                <div>
-                    {/* Lets handle auth later */}
-                    {/* <GoogleLogin
-                        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                        buttonText="Login with Google"
-                        onSuccess={this.successResponseGoogle}
-                        onFailure={this.failureResponseGoogle}
-                        cookiePolicy={'single_host_origin'}
-                        isSignedIn={true}
-                    /> */}
-                </div>
-
-            </div>
-        )
-    }
+class HomePage extends PureComponent {
+  render() {
+    return (
+      <div className="home-page">
+        <HomeHeader />
+        <HomeBody />
+        <HomeFooter />
+      </div>
+    );
+  }
 }
 
 export default HomePage;

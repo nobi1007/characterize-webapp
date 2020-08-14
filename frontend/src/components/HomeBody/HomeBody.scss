@@ -1,0 +1,15 @@
+.home-body {
+  flex: 1 1 auto;
+  padding: 20px;
+}
+
+.custom-upload {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-upload {
+  max-width: 220px;
+  align-self: center;
+  min-width: 80px;
+}

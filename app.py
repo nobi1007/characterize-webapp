@@ -92,7 +92,7 @@ def protected():
 
 @app.route("/api/characterizer101", methods = ["POST"])
 def characterizerV101():
-    req = request.get_json()    
+    req = request.get_json()
     user_id = req["user_id"]
     file_uri = req["file_uri"]
     original_file_name = req["file_name"]
@@ -108,7 +108,7 @@ def characterizerV101():
     characterized_image_uri = file_object.saved_file_uri
     
     return {
-        "char-it-image-uri":characterized_image_uri
+        "characterized-image-uri":characterized_image_uri
     }
 
 
@@ -119,6 +119,7 @@ def displayImage():
     else:
         return handle_show_image(request)
         
+        
 ## ------------------------------------- Unauthorized Handler -------------------------------------
 
 @login_manager.unauthorized_handler
@@ -127,6 +128,15 @@ def unauthorized_handler():
     return '''
             Please <a href="/glogin">login</a> first! 
         '''
+
+@app.route("/checker",methods=["POST"])
+def checker():
+    req = request.get_json()
+    print("this is key-val","a -",req["a"])
+    print("Just checking",req)
+    return {
+        "x":"y"
+    }
 
 
 if __name__ == "__main__":

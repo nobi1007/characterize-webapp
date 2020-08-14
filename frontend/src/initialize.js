@@ -29,7 +29,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./styles/scss/index.scss";
 import * as Sentry from '@sentry/browser';
-import "./polyfill.d";
+import "./polyfill";
 
 Sentry.init({ 
   dsn: 'https://f1b819c7a5a34cd0b10b9211c593c2f4@sentry.io/1470444',

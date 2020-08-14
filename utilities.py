@@ -37,7 +37,15 @@ def handle_show_image(request):
     storage_object.store_file(file_name = input_file_name, file_data = input_file_data, file_type = "image")
     image_uri = storage_object.saved_file_uri
     
-    return render_template("display_image.html",uploaded_image=image_uri)
+    req_data = {
+        "user_id":input_user_id,
+        "file_uri":image_uri,
+        "file_name":storage_object.file_name
+    }
+
+    response = requests.post(url="http://127.0.0.1:8080/api/characterizer101",json=req_data)
+    
+    return response.content.decode("unicode_escape")
 
 
 def get_google_provider_cfg():
