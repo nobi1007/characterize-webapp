@@ -17,78 +17,78 @@ app.secret_key = "7y8gb87t76g878t6243rnd2wor8dj98"
 
 CORS(app,supports_credentials=True)
 
-login_manager = flask_login.LoginManager()
-login_manager.init_app(app)
+# login_manager = flask_login.LoginManager()
+# login_manager.init_app(app)
 
-## Mock Database 
+# ## Mock Database 
 
-users = {
-    "Shyam":{
-        "id" : "Shyam",
-        "email" : "abc@gmail.com"  
-    }
-}
+# users = {
+#     "Shyam":{
+#         "id" : "Shyam",
+#         "email" : "abc@gmail.com"  
+#     }
+# }
 
-class User(flask_login.UserMixin):
-    pass
-
-
-## ------------------------------ Login Handler ----------------------------
-
-@login_manager.user_loader
-def user_loader(name):
-    if name not in users:
-        return
-
-    user = User()
-    user.id = name
-    return user
+# class User(flask_login.UserMixin):
+#     pass
 
 
-@login_manager.request_loader
-def request_loader(request):
-    name = request.form.get("name")
-    if name not in users:
-        return
-    user = User()
-    user.id = name
-    user.is_authenticated = request.form["email"] == users[name]["email"]
-    return user
+# ## ------------------------------ Login Handler ----------------------------
 
-@app.route("/glogin")
-def google_login():
+# @login_manager.user_loader
+# def user_loader(name):
+#     if name not in users:
+#         return
 
-    google_provider_cfg = get_google_provider_cfg()
-    authorization_endpoint = google_provider_cfg["authorization_endpoint"]
-    request_uri = client.prepare_request_uri(
-        authorization_endpoint,
-        redirect_uri = request.base_url[:-7] + "/api/glogin/callback",
-        scope=["openid", "email", "profile"],
-    )
-
-    return redirect(request_uri)
+#     user = User()
+#     user.id = name
+#     return user
 
 
-@app.route("/api/glogin/callback")
-def callback():
-    return handle_google_login_callback(request, User, users)
+# @login_manager.request_loader
+# def request_loader(request):
+#     name = request.form.get("name")
+#     if name not in users:
+#         return
+#     user = User()
+#     user.id = name
+#     user.is_authenticated = request.form["email"] == users[name]["email"]
+#     return user
+
+# @app.route("/glogin")
+# def google_login():
+
+#     google_provider_cfg = get_google_provider_cfg()
+#     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+#     request_uri = client.prepare_request_uri(
+#         authorization_endpoint,
+#         redirect_uri = request.base_url[:-7] + "/api/glogin/callback",
+#         scope=["openid", "email", "profile"],
+#     )
+
+#     return redirect(request_uri)
+
+
+# @app.route("/api/glogin/callback")
+# def callback():
+#     return handle_google_login_callback(request, User, users)
 
 ## ------------------------------------- Logout Handler -----------------------------------
 
-@app.route('/logout', methods=["GET","POST"])
-@flask_login.login_required
-def logout():
-    flask_login.logout_user()
-    return 'Logged out'
+# @app.route('/logout', methods=["GET","POST"])
+# @flask_login.login_required
+# def logout():
+#     flask_login.logout_user()
+#     return 'Logged out'
 
 
 ## ------------------------------------- Home/Dashboard -------------------------------------
 
-@app.route("/home")
-@app.route("/")
-@flask_login.login_required
-def protected():
-    return render_template("index.html",user_id=flask_login.current_user.id)
+# @app.route("/home")
+# @app.route("/")
+# @flask_login.login_required
+# def protected():
+#     return render_template("index.html",user_id=flask_login.current_user.id)
 
 
 ## ------------------------------------- API - Characterizer -------------------------------------
@@ -126,21 +126,21 @@ def displayImage():
         
 ## ------------------------------------- Unauthorized Handler -------------------------------------
 
-@login_manager.unauthorized_handler
-def unauthorized_handler():
+# @login_manager.unauthorized_handler
+# def unauthorized_handler():
 
-    return '''
-            Please <a href="/glogin">login</a> first! 
-        '''
+#     return '''
+#             Please <a href="/glogin">login</a> first! 
+#         '''
 
-@app.route("/checker",methods=["POST"])
-def checker():
-    req = request.get_json()
-    print("this is key-val","a -",req["a"])
-    print("Just checking",req)
-    return {
-        "x":"y"
-    }
+# @app.route("/checker",methods=["POST"])
+# def checker():
+#     req = request.get_json()
+#     print("this is key-val","a -",req["a"])
+#     print("Just checking",req)
+#     return {
+#         "x":"y"
+#     }
 
 
 if __name__ == "__main__":

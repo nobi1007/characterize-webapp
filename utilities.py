@@ -13,13 +13,13 @@ load_dotenv()
 
 ## Google Login Configuration
 
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
-GOOGLE_DISCOVERY_URL = (
-    "https://accounts.google.com/.well-known/openid-configuration"
-)
+# GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+# GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+# GOOGLE_DISCOVERY_URL = (
+#     "https://accounts.google.com/.well-known/openid-configuration"
+# )
 
-client = WebApplicationClient(GOOGLE_CLIENT_ID)
+# client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 def get_new_name():
     nums = list(range(97,123))
@@ -55,68 +55,67 @@ def handle_show_image(request):
     
     return response.content
 
+# def get_google_provider_cfg():
+#     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
-def get_google_provider_cfg():
-    return requests.get(GOOGLE_DISCOVERY_URL).json()
+# def handle_google_login_callback(request, User, users):
+#     code = request.args.get("code")
+#     google_provider_cfg = get_google_provider_cfg()
+#     token_endpoint = google_provider_cfg["token_endpoint"]
 
-def handle_google_login_callback(request, User, users):
-    code = request.args.get("code")
-    google_provider_cfg = get_google_provider_cfg()
-    token_endpoint = google_provider_cfg["token_endpoint"]
+#     # Prepare and send request to get tokens! Yay tokens!
+#     token_url, headers, body = client.prepare_token_request(
+#         token_endpoint,
+#         authorization_response=request.url,
+#         redirect_url=request.base_url,
+#         code=code,
+#     )
 
-    # Prepare and send request to get tokens! Yay tokens!
-    token_url, headers, body = client.prepare_token_request(
-        token_endpoint,
-        authorization_response=request.url,
-        redirect_url=request.base_url,
-        code=code,
-    )
-
-    token_response = requests.post(
-        token_url,
-        headers=headers,
-        data=body,
-        auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
-    )
+#     token_response = requests.post(
+#         token_url,
+#         headers=headers,
+#         data=body,
+#         auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
+#     )
 
 
-    client.parse_request_body_response(json.dumps(token_response.json()))
+#     client.parse_request_body_response(json.dumps(token_response.json()))
 
-    # Now that we have tokens (yay) let's find and hit URL
-    # from Google that gives you user's profile information,
-    # including their Google Profile Image and Email
-    userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
-    uri, headers, body = client.add_token(userinfo_endpoint)
-    userinfo_response = requests.get(uri, headers=headers, data=body)
+#     # Now that we have tokens (yay) let's find and hit URL
+#     # from Google that gives you user's profile information,
+#     # including their Google Profile Image and Email
+#     userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
+#     uri, headers, body = client.add_token(userinfo_endpoint)
+#     userinfo_response = requests.get(uri, headers=headers, data=body)
 
-    # We want to make sure their email is verified.
-    # The user authenticated with Google, authorized our
-    # app, and now we've verified their email through Google!
-    if userinfo_response.json().get("email_verified"):
-        unique_id = userinfo_response.json()["sub"]
-        users_email = userinfo_response.json()["email"]
-        picture = userinfo_response.json()["picture"]
-        users_name = userinfo_response.json()["given_name"]
-    else:
-        return "User email not available or not verified by Google.", 400
+#     # We want to make sure their email is verified.
+#     # The user authenticated with Google, authorized our
+#     # app, and now we've verified their email through Google!
+#     if userinfo_response.json().get("email_verified"):
+#         unique_id = userinfo_response.json()["sub"]
+#         users_email = userinfo_response.json()["email"]
+#         picture = userinfo_response.json()["picture"]
+#         users_name = userinfo_response.json()["given_name"]
+#     else:
+#         return "User email not available or not verified by Google.", 400
 
-    # Create a user in our db with the information provided
-    # by Google
-    user = User()
-    user.id = users_name
+#     # Create a user in our db with the information provided
+#     # by Google
+#     user = User()
+#     user.id = users_name
 
-    # Doesn't exist? Add to database
-    if not users_name in users:
-        users[users_name] = {
-            "name":users_name,
-            "email":users_email
-        }
+#     # Doesn't exist? Add to database
+#     if not users_name in users:
+#         users[users_name] = {
+#             "name":users_name,
+#             "email":users_email
+#         }
 
-    # Begin user session by logging the user in
-    flask_login.login_user(user)
+#     # Begin user session by logging the user in
+#     flask_login.login_user(user)
 
-    # Send user back to homepage
-    return redirect(url_for("protected"))
+#     # Send user back to homepage
+#     return redirect(url_for("protected"))
 
 def array3T2(array):
     ans = []
@@ -130,13 +129,13 @@ def array3T2(array):
 
 def characterize101(image_data:np.ndarray) -> str:
 
-    characters = list("@#&%`-+.. ")
+    characters = list("@#&S`%+-. ")
 
     cv2.imwrite("sample_image.png",image_data)
     array_x = cv2.imread("sample_image.png",0)
     os.remove("sample_image.png")
 
-    height = 42
+    height = 40
     factor = (len(array_x)//height)//2
     width = len(array_x[0])//factor
 
