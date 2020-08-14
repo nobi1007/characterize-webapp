@@ -17,6 +17,7 @@ class CustomUpload extends PureComponent {
       loaded_image_uri,
       handleFileOnChange,
       handleImageUpload,
+      isLoadingResponse,
     } = this.props;
     return (
       <div className="custom-upload">
@@ -34,6 +35,7 @@ class CustomUpload extends PureComponent {
           onClick={handleImageUpload}
           content="Characterize it"
           disabled={!isImageLoaded}
+          loading={isLoadingResponse}
         />
       </div>
     );

@@ -14,12 +14,16 @@ class HomeBody extends PureComponent {
       uploaded_file: undefined,
       characterized_image_uri: undefined,
       characterized_image_data: undefined,
+      isLoadingResponse: false,
     };
   }
 
   handleImageUpload = (e) => {
     const { uploaded_file } = this.state;
     e.preventDefault();
+    this.setState({
+      isLoadingResponse: true,
+    });
 
     const formData = new FormData();
     formData.append("input_image", uploaded_file);
@@ -43,8 +47,14 @@ class HomeBody extends PureComponent {
         this.setState({
           characterized_image_data,
           characterized_image_uri,
+          isLoadingResponse: false,
         });
         console.log(characterized_image_data);
+      })
+      .catch((error) => {
+        this.setState({
+          isLoadingResponse: false,
+        });
       });
   };
 
@@ -68,6 +78,7 @@ class HomeBody extends PureComponent {
       isImageLoaded,
       loaded_image_uri,
       characterized_image_data,
+      isLoadingResponse,
     } = this.state;
 
     return (
@@ -80,6 +91,7 @@ class HomeBody extends PureComponent {
                 handleImageUpload={this.handleImageUpload}
                 isImageLoaded={isImageLoaded}
                 loaded_image_uri={loaded_image_uri}
+                isLoadingResponse={isLoadingResponse}
               />
             </Segment>
           </Grid.Column>
