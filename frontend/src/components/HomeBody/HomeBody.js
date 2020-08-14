@@ -3,6 +3,7 @@ import { Grid, Segment } from "semantic-ui-react";
 import axios from "axios";
 import "./HomeBody.scss";
 import CustomUpload from "./CustomUpload";
+import { SERVER_PATH } from "../../utilities/serverPath";
 
 class HomeBody extends PureComponent {
   constructor(props) {
@@ -28,7 +29,7 @@ class HomeBody extends PureComponent {
       },
     };
 
-    const url = `http://127.0.0.1:8080/show_image`;
+    const url = SERVER_PATH + `/show_image`;
 
     axios
       .create({
@@ -69,7 +70,6 @@ class HomeBody extends PureComponent {
       characterized_image_data,
     } = this.state;
 
-    // const data = "hell\n\n\n\no\ndf\n   ded\nd    d     dd";
     return (
       <div className="home-body">
         <Grid stackable columns={2}>
