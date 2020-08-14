@@ -51,7 +51,7 @@ def handle_show_image(request):
         "file_name":storage_object.file_name
     }
 
-    response = requests.post(url="http://127.0.0.1:8080/api/characterizer101",json=req_data)
+    response = requests.post(url="https://characterize-backend.herokuapp.com/api/characterizer101",json=req_data)
     
     return response.content
 
