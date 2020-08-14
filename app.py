@@ -8,11 +8,14 @@ import numpy
 from utilities import *
 from dotenv import load_dotenv
 from CustomFileStorage import *
+from flask_cors import CORS, cross_origin
 
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = "7y8gb87t76g878t6243rnd2wor8dj98"
+
+CORS(app,supports_credentials=True)
 
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
@@ -108,6 +111,7 @@ def characterizerV101():
     characterized_image_uri = file_object.saved_file_uri
     
     return {
+        "characterized-image-data" : chard_image_data,
         "characterized-image-uri":characterized_image_uri
     }
 

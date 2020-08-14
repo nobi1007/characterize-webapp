@@ -1,3 +1,11 @@
+/**
+ * @author Shyam Mittal
+ * @email mittalshyam1007@gmail.com
+ * @create date 2020-08-14 16:58:26
+ * @modify date 2020-08-14 16:58:26
+ * @desc [description]
+ */
+
 .home-body {
   flex: 1 1 auto;
   padding: 20px;
@@ -9,7 +17,34 @@
 }
 
 .image-upload {
-  max-width: 220px;
+  max-width: 316px;
   align-self: center;
   min-width: 80px;
+}
+
+div.ui.input {
+  margin: 16px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+button.ui.button {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.output-data {
+  white-space: pre;
+  font-size: 9px;
+  display: flex;
+  justify-content: center;
+}
+
+.image-upload-container {
+  display: flex;
+  justify-content: center;
+}
+
+.column.output-data-column {
+  line-height: 10px;
 }

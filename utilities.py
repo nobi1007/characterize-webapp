@@ -7,6 +7,7 @@ import flask_login
 from CustomFileStorage import *
 from oauthlib.oauth2 import WebApplicationClient
 from dotenv import load_dotenv
+from random import shuffle
 
 load_dotenv()
 
@@ -20,6 +21,13 @@ GOOGLE_DISCOVERY_URL = (
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
+def get_new_name():
+    nums = list(range(97,123))
+    chars = list(map(chr,nums))
+    nos = list(range(1,10))
+    shuffle(nos)
+    shuffle(chars)
+    return "".join(chars[:5]) + "".join(list(map(str,nos))[:3])
 
 def handle_show_image(request):
     try:
@@ -27,8 +35,8 @@ def handle_show_image(request):
     except:
         return "Invalid Request"
 
-    input_file_name = str(request.form["file_name"])
-    input_user_id = str(request.form["user_id"])
+    input_file_name = get_new_name()
+    input_user_id = "chard1open1id"
     npimg = np.fromstring(uploaded_file, np.uint8)
     input_file_data = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
     
@@ -45,7 +53,7 @@ def handle_show_image(request):
 
     response = requests.post(url="http://127.0.0.1:8080/api/characterizer101",json=req_data)
     
-    return response.content.decode("unicode_escape")
+    return response.content
 
 
 def get_google_provider_cfg():
