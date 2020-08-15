@@ -1,6 +1,13 @@
-.home-footer{
-    height: 36px;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
+.home-footer {
+  height: 36px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  white-space: pre;
+  font-size: 16px;
+  font-family: monospace;
+}
+
+.footer-heart-icon {
+  width: 20px;
 }
