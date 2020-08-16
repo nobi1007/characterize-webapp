@@ -30,7 +30,14 @@ class CustomUpload extends PureComponent {
             />
           )}
         </div>
-        <Input type="file" onChange={handleFileOnChange} />
+        <Input
+          type="file"
+          className="file-upload-input"
+          onChange={handleFileOnChange}
+          label="Choose an Image"
+          size="large"
+          style={{ color: "#24292e" }}
+        />
         <Button
           onClick={handleImageUpload}
           content="Characterize it"

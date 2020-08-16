@@ -1,19 +1,21 @@
 import React, { PureComponent } from "react";
-import { Grid, Segment } from "semantic-ui-react";
+import { Grid, Segment, Icon } from "semantic-ui-react";
 import axios from "axios";
 import "./HomeBody.scss";
 import CustomUpload from "./CustomUpload";
 import { SERVER_PATH } from "../../utilities/serverPath";
+import initImage from "../../images/characterize_github.jpg";
+import { initImageData, initImageUri } from "./initImageData";
 
 class HomeBody extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      isImageLoaded: false,
-      loaded_image_uri: "",
-      uploaded_file: undefined,
+      isImageLoaded: true,
+      loaded_image_uri: initImageUri,
+      uploaded_file: initImage,
       characterized_image_uri: undefined,
-      characterized_image_data: undefined,
+      characterized_image_data: initImageData,
       isLoadingResponse: false,
     };
   }
@@ -49,7 +51,7 @@ class HomeBody extends PureComponent {
           characterized_image_uri,
           isLoadingResponse: false,
         });
-        console.log(characterized_image_data);
+        console.log("imageData", data);
       })
       .catch((error) => {
         this.setState({
@@ -85,7 +87,7 @@ class HomeBody extends PureComponent {
       <div className="home-body">
         <Grid stackable columns={2}>
           <Grid.Column>
-            <Segment>
+            <Segment style={{ backgroundColor: "#24292e" }}>
               <CustomUpload
                 handleFileOnChange={this.handleFileOnChange}
                 handleImageUpload={this.handleImageUpload}
@@ -96,9 +98,13 @@ class HomeBody extends PureComponent {
             </Segment>
           </Grid.Column>
           <Grid.Column className="output-data-column">
-            <Segment>
+            <Segment style={{ backgroundColor: "#24292e" }}>
               {characterized_image_data && (
-                <code className="output-data">{characterized_image_data}</code>
+                <>
+                  <code className="output-data">
+                    {characterized_image_data}
+                  </code>
+                </>
               )}
             </Segment>
           </Grid.Column>
