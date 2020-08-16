@@ -7,7 +7,7 @@
  */
 
 import React, { PureComponent } from "react";
-import { Input, Button } from "semantic-ui-react";
+import { Input, Button, Icon } from "semantic-ui-react";
 import "./HomeBody.scss";
 
 class CustomUpload extends PureComponent {
@@ -18,6 +18,7 @@ class CustomUpload extends PureComponent {
       handleFileOnChange,
       handleImageUpload,
       isLoadingResponse,
+      characterized_image_uri,
     } = this.props;
     return (
       <div className="custom-upload">
@@ -37,12 +38,26 @@ class CustomUpload extends PureComponent {
           size="large"
           style={{ color: "#24292e" }}
         />
-        <Button
-          onClick={handleImageUpload}
-          content="Characterize it"
-          disabled={!isImageLoaded}
-          loading={isLoadingResponse}
-        />
+        <div className="button-container">
+          <Button
+            className="characterize-it-button"
+            onClick={handleImageUpload}
+            content="Characterize it"
+            disabled={!isImageLoaded}
+            loading={isLoadingResponse}
+          />
+          <a
+            href={characterized_image_uri}
+            title="Download Characterized Image"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button
+              disabled={!characterized_image_uri}
+              icon={<Icon name="download" />}
+            />
+          </a>
+        </div>
       </div>
     );
   }

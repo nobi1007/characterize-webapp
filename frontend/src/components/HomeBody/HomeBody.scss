@@ -52,3 +52,12 @@ button.ui.button {
 .column.output-data-column {
   line-height: 10px;
 }
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.characterize-it-button {
+  flex: 1 1 auto;
+}

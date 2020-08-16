@@ -4,16 +4,15 @@ import axios from "axios";
 import "./HomeBody.scss";
 import CustomUpload from "./CustomUpload";
 import { SERVER_PATH } from "../../utilities/serverPath";
-import initImage from "../../images/characterize_github.jpg";
-import { initImageData, initImageUri } from "./initImageData";
+import { initImageData } from "./initImageData";
 
 class HomeBody extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      isImageLoaded: true,
-      loaded_image_uri: initImageUri,
-      uploaded_file: initImage,
+      isImageLoaded: false,
+      loaded_image_uri: "",
+      uploaded_file: undefined,
       characterized_image_uri: undefined,
       characterized_image_data: initImageData,
       isLoadingResponse: false,
@@ -22,6 +21,7 @@ class HomeBody extends PureComponent {
 
   handleImageUpload = (e) => {
     const { uploaded_file } = this.state;
+
     e.preventDefault();
     this.setState({
       isLoadingResponse: true,
@@ -29,6 +29,7 @@ class HomeBody extends PureComponent {
 
     const formData = new FormData();
     formData.append("input_image", uploaded_file);
+
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -51,13 +52,17 @@ class HomeBody extends PureComponent {
           characterized_image_uri,
           isLoadingResponse: false,
         });
-        console.log("imageData", data);
+        // console.log("imageData", data);
       })
       .catch((error) => {
         this.setState({
           isLoadingResponse: false,
         });
       });
+  };
+
+  handleImageDownload = (e) => {
+    e.preventDefault();
   };
 
   handleFileOnChange = (e) => {
@@ -81,6 +86,7 @@ class HomeBody extends PureComponent {
       loaded_image_uri,
       characterized_image_data,
       isLoadingResponse,
+      characterized_image_uri,
     } = this.state;
 
     return (
@@ -94,6 +100,8 @@ class HomeBody extends PureComponent {
                 isImageLoaded={isImageLoaded}
                 loaded_image_uri={loaded_image_uri}
                 isLoadingResponse={isLoadingResponse}
+                characterized_image_uri={characterized_image_uri}
+                // handleImageDownload = {this.handleImageDownload}
               />
             </Segment>
           </Grid.Column>
