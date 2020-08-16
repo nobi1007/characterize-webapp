@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Grid, Segment, Icon } from "semantic-ui-react";
+import { Grid, Segment } from "semantic-ui-react";
 import axios from "axios";
 import "./HomeBody.scss";
 import CustomUpload from "./CustomUpload";
