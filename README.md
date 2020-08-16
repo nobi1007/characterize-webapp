@@ -52,8 +52,10 @@ _Tip : try seeing the text from far-off_
 
 ### Excited!!! You can use the app [here](https://char-it.netlify.app/)
 
--------------------
 
+### Please do leave a :star: if it was good :innocent:.
+
+-------------------
 
 ## Steps for local setup
 
