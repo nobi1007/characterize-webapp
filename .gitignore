@@ -2,3 +2,4 @@
 .vscode/
 __pycache__/
 .netlify/
+char-env

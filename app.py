@@ -9,23 +9,24 @@ from utilities import *
 from dotenv import load_dotenv
 from CustomFileStorage import *
 from flask_cors import CORS, cross_origin
+import xlrd, pandas as pd, numpy as np
 
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = "7y8gb87t76g878t6243rnd2wor8dj98"
 
-CORS(app,supports_credentials=True)
+CORS(app, supports_credentials=True)
 
 # login_manager = flask_login.LoginManager()
 # login_manager.init_app(app)
 
-# ## Mock Database 
+# ## Mock Database
 
 # users = {
 #     "Shyam":{
 #         "id" : "Shyam",
-#         "email" : "abc@gmail.com"  
+#         "email" : "abc@gmail.com"
 #     }
 # }
 
@@ -93,7 +94,8 @@ CORS(app,supports_credentials=True)
 
 ## ------------------------------------- API - Characterizer -------------------------------------
 
-@app.route("/api/characterizer101", methods = ["POST"])
+
+@app.route("/api/characterizer101", methods=["POST"])
 def characterizerV101():
     req = request.get_json()
     user_id = req["user_id"]
@@ -106,34 +108,41 @@ def characterizerV101():
 
     chard_image_data = characterize101(request_file_data)
 
-    file_object = CustomFileStorage(user_id = user_id)
-    file_object.store_file(file_name = "chard-101-" + original_file_name, file_data = chard_image_data, file_type="text")    
+    file_object = CustomFileStorage(user_id=user_id)
+    file_object.store_file(
+        file_name="chard-101-" + original_file_name,
+        file_data=chard_image_data,
+        file_type="text",
+    )
     characterized_image_uri = file_object.saved_file_uri
-    
+
     return {
-        "characterized-image-data" : chard_image_data,
-        "characterized-image-uri":characterized_image_uri
+        "characterized-image-data": chard_image_data,
+        "characterized-image-uri": characterized_image_uri,
     }
 
 
-@app.route("/show_image",methods=["GET","POST"])
+@app.route("/show_image", methods=["GET", "POST"])
 def displayImage():
     if request.method == "GET":
         return render_template("display_image.html")
     else:
         return handle_show_image(request)
- 
-@app.route('/test', methods=['GET'])
+
+
+@app.route("/test", methods=["POST"])
 def testApi():
-    return {"message":"Api works"}
-        
+    req = request.get_json()
+    return req
+
+
 ## ------------------------------------- Unauthorized Handler -------------------------------------
 
 # @login_manager.unauthorized_handler
 # def unauthorized_handler():
 
 #     return '''
-#             Please <a href="/glogin">login</a> first! 
+#             Please <a href="/glogin">login</a> first!
 #         '''
 
 # @app.route("/checker",methods=["POST"])
