@@ -122,7 +122,10 @@ def displayImage():
         return render_template("display_image.html")
     else:
         return handle_show_image(request)
-        
+ 
+@app.route('/test', methods=['GET'])
+def testApi():
+    return {"message":"Api works"}
         
 ## ------------------------------------- Unauthorized Handler -------------------------------------
 
